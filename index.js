@@ -24,6 +24,26 @@ const parseForm = bodyParser.urlencoded({
     extended: true
 });
 
+app.get('/', (req, res) => {
+    res.send('Hellooooo!');
+});
+
+app.get('/create', (req, res) => {
+    console.log('yes, they did a GET request');
+    res.render('form');
+});
+
+app.post('/create', parseForm, (req, res) => {
+    console.log('Hooray a POST!');
+    console.log(req.body);
+    // reading the data fromt ge form
+    res.redirect('/create/sucess');
+});
+
+app.get('/create/sucess', (req, res) => {
+    res.send('success!');
+})
+
 server.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);
 });
