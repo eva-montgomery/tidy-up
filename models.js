@@ -1,3 +1,33 @@
+const bcrypt = require('bcryptjs');
+
+const userDb = [];
+
+function createHash(password) {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+};
+
+function createUser(username, password) {
+    const hash = createHash(password);
+    const newUser = {
+        username,
+        hash
+    };
+    console.log(newUser);
+    userDb.push(newUser);
+}
+
+function getUser(username) {
+    return userDb.find(user => user.username == username);
+};
+
+function login(username, password) {
+    console.log(userDb);
+    const theUser = getUser(username);
+    return bcrypt.compareSync(password, theUser.hash);
+
+};
+
 const db = [];
 
 function all() {
@@ -41,13 +71,12 @@ const stuff = {
     create
 };
 
-// const users = {
-//     allUsers,
-//     signUp,
-//     login
-// };
+const users = {
+    create: createUser,
+    login
+};
 
 module.exports = {
     stuff,
-    //users
+    users
 };
